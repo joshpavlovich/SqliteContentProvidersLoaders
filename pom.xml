@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.okcdroid.android</groupId>
+    <artifactId>sqliteContentProvidersLoaders-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>sqliteContentProvidersLoaders-parent</name>
+    <description>Sqlite ContentProviders Loaders parent project.</description>
+    <url/>
+    <modules>
+        <module>sqliteContentProvidersLoaders-app</module>
+    </modules>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Compilation -->
+        <java.version>1.6</java.version>
+        <maven.android.plugin.version>3.3.0</maven.android.plugin.version>
+        <!-- Dependencies -->
+        <android.version>4.1_r1</android.version>
+        <android.platform.version>16</android.platform.version>
+        <android.support.version>r9</android.support.version>
+        <!-- Test Dependencies -->
+        <junit.version>4.10</junit.version>
+    </properties>
+    <prerequisites>
+        <maven>3.0.3</maven>
+    </prerequisites>
+    <scm>
+        <connection>scm:git:git@bitbucket.org:joshpavlovich/spendings</connection>
+        <developerConnection>scm:git:https://bitbucket.org/joshpavlovich/spendings</developerConnection>
+        <url>http://bitbucket.org/joshpavlovich/spendings</url>
+    </scm>
+    <developers>
+        <developer>
+            <id>joshpavlovich</id>
+            <name>Josh Pavlovich</name>
+            <email>joshpavlovich@gmail.com</email>
+        </developer>
+    </developers>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>android</groupId>
+                <artifactId>android</artifactId>
+                <version>${android.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>android.support</groupId>
+                <artifactId>compatibility-v4</artifactId>
+                <version>${android.support.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>2.5</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-jarsigner-plugin</artifactId>
+                    <version>1.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>2.5</version>
+                    <configuration>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                    <artifactId>android-maven-plugin</artifactId>
+                    <version>${maven.android.plugin.version}</version>
+                    <configuration>
+                        <sdk>
+                            <platform>${platform.version}</platform>
+                        </sdk>
+                        <emulator>
+                            <avd>23</avd>
+                            <wait>10000</wait>
+                            <!--<options>-no-skin</options> -->
+                        </emulator>
+                        <zipalign>
+                            <verbose>true</verbose>
+                        </zipalign>
+                        <deleteConflictingFiles>true</deleteConflictingFiles>
+                        <undeployBeforeDeploy>true</undeployBeforeDeploy>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>1.5</version>
+                </plugin>
+                <!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                                        <artifactId>android-maven-plugin</artifactId>
+                                        <versionRange>[3.3.0,)</versionRange>
+                                        <goals>
+                                            <goal>manifest-update</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <execute/>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+    <profiles>
+        <profile>
+            <!-- the release profile does sign, proguard, zipalign ... but does not 
+				run instrumentation tests -->
+            <id>release</id>
+            <!-- via this activation the profile is automatically used when the release 
+				is done with the maven release plugin -->
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <modules>
+                <module>sqliteContentProvidersLoaders-app</module>
+            </modules>
+        </profile>
+    </profiles>
+</project>
