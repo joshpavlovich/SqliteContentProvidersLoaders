@@ -1,0 +1,4 @@
+SqliteContentProvidersLoaders
+=============================
+
+Sqlite, ContentProviders, Loaders
