@@ -1,0 +1,32 @@
+Shell access to the database
+
+It is possible to access an SQLite database on the emulator or a rooted device via the command line. For this use the following command to connect to the device.
+
+# Goto paltform-tools under $ANDROID_HOME
+cd $ANDROID_HOME/platform-tools
+
+# Run adb shell
+adb shell
+
+
+# Switch to the data directory
+cd /data/data
+
+# Our application
+cd org.okcdroid.android.sqliteContentProvidersLoaders
+
+# Switch to the database dir
+cd databases
+
+# Check the content
+ls
+
+# Assuming that there is a todotable file
+# connect to this table
+sqlite3 sqliteContentProvidersLoaders.db
+
+.headers ON
+.schema
+.tables
+
+SELECT * FROM member;
